@@ -6,7 +6,8 @@ import { AnalysisResult } from "@/lib/types";
 import OverallHealthCard from "@/components/OverallHealthCard";
 import StageCard from "@/components/StageCard";
 import TimelineView from "@/components/TimelineView";
-import { ArrowLeft, Download, Mic } from "lucide-react";
+import RecommendationsPanel from "@/components/RecommendationsPanel";
+import { ArrowLeft, Download, Mic, ArrowRight } from "lucide-react";
 
 export default function ResultsPage() {
   const router = useRouter();
@@ -43,7 +44,7 @@ export default function ResultsPage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="w-10 h-10 rounded-full border-2 border-brand-400 border-t-transparent animate-spin" />
-          <p className="text-(--text-subtle) font-mono text-sm">
+          <p className="text-[var(--text-subtle)] font-mono text-sm">
             Loading analysis...
           </p>
         </div>
@@ -58,7 +59,7 @@ export default function ResultsPage() {
         <div className="flex items-center gap-4">
           <button
             onClick={() => router.push("/")}
-            className="flex items-center gap-2 text-sm text-(--text-subtle) hover:text-white transition-colors"
+            className="flex items-center gap-2 text-sm text-[var(--text-subtle)] hover:text-white transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             New Analysis
@@ -68,14 +69,14 @@ export default function ResultsPage() {
             <div className="w-6 h-6 rounded-md bg-brand-500/20 border border-brand-500/30 flex items-center justify-center">
               <Mic className="w-3 h-3 text-brand-400" />
             </div>
-            <span className="text-xs text-(--text-subtle) font-mono">
+            <span className="text-xs text-[var(--text-subtle)] font-mono">
               SuperBryn · Analysis Report
             </span>
           </div>
         </div>
         <button
           onClick={handleDownload}
-          className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-surface-border text-xs text-(--text-subtle) hover:text-white hover:border-brand-500/40 transition-all font-mono"
+          className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-surface-border text-xs text-[var(--text-subtle)] hover:text-white hover:border-brand-500/40 transition-all font-mono"
         >
           <Download className="w-3 h-3" />
           Export JSON
@@ -91,9 +92,53 @@ export default function ResultsPage() {
 
         {/* Pipeline Stages */}
         <div>
-          <h2 className="font-mono text-xs font-semibold text-(--text-muted) uppercase tracking-widest mb-4 font-mono">
+          <h2 className="font-mono text-xs font-semibold text-[var(--text-muted)] uppercase tracking-widest mb-4">
             Pipeline Breakdown
           </h2>
+
+          {/* Pipeline flow visualization */}
+          <div className="flex items-stretch gap-2 mb-4 overflow-x-auto pb-2">
+            {(["stt", "llm", "tts"] as const).map((key, i) => {
+              const stage = result.stages[key];
+              const colors = {
+                stt: { dot: "#6366f1", label: "Speech-to-Text" },
+                llm: { dot: "#14b896", label: "Language Model" },
+                tts: { dot: "#f59e0b", label: "Text-to-Speech" },
+              };
+              const scoreColor =
+                stage.score >= 80
+                  ? "#14b896"
+                  : stage.score >= 60
+                  ? "#eab308"
+                  : stage.score >= 40
+                  ? "#f97316"
+                  : "#ef4444";
+
+              return (
+                <div key={key} className="flex items-center gap-2 shrink-0">
+                  <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface-2 border border-surface-border">
+                    <div
+                      className="w-2 h-2 rounded-full shrink-0"
+                      style={{ background: colors[key].dot }}
+                    />
+                    <span className="text-xs font-mono text-[var(--text-subtle)]">
+                      {key.toUpperCase()}
+                    </span>
+                    <span
+                      className="text-xs font-bold tabular-nums"
+                      style={{ color: scoreColor }}
+                    >
+                      {stage.score}
+                    </span>
+                  </div>
+                  {i < 2 && (
+                    <ArrowRight className="w-3 h-3 text-[var(--text-muted)] shrink-0" />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="animate-fade-up stagger-2">
               <StageCard stage={result.stages.stt} index={0} />
@@ -107,6 +152,13 @@ export default function ResultsPage() {
           </div>
         </div>
 
+        {/* Recommendations */}
+        {result.recommendations && result.recommendations.length > 0 && (
+          <div className="animate-fade-up stagger-5">
+            <RecommendationsPanel recommendations={result.recommendations} />
+          </div>
+        )}
+
         {/* Timeline */}
         {result.timeline && result.timeline.length > 0 && (
           <div className="animate-fade-up stagger-5">
@@ -119,7 +171,7 @@ export default function ResultsPage() {
       </main>
 
       <footer className="border-t border-surface-border px-6 py-4 text-center">
-        <p className="text-xs text-(--text-muted) font-mono">
+        <p className="text-xs text-[var(--text-muted)] font-mono">
           Powered by{" "}
           <a
             href="https://superbryn.com"
