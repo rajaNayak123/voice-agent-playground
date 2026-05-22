@@ -1,0 +1,20 @@
+Agent: Hello, thank you for calling HealthCare Support. My name is Aria. How can I help you today?
+User: Hi, I need to reschedule my appointment with Dr. Johnson for next Tuesday.
+Agent: I'd be happy to help you reschedule. Can you please provide me your date of birth and the last four digits of your insurance ID?
+User: Sure, it's March 15th 1985 and the last four are 7 7 4 2.
+Agent: Thank you. Let me pull up your account. I see you have an appointment on Thursday the 12th at 2 PM with Dr. Johnson.
+User: No, that's not right. I want to move it to next Tuesday, not Thursday.
+Agent: I understand you want to reschedule. What day would work best for you?
+User: I just said Tuesday. Next Tuesday.
+Agent: Of course. Let me check Dr. Johnson's availability for this week.
+User: Not this week, next week! Next Tuesday!
+Agent: I apologize for the confusion. I'm showing availability on the 19th which is a Wednesday or the 21st which is a Friday. Would either of those work for you?
+User: Those are not Tuesdays. Can I speak to a human please?
+Agent: I understand your frustration. I'm transferring you now. Please hold.
+User: [sighs] I've been through this three times already.
+Agent: Your estimated wait time is 45 minutes. Would you like a callback instead?
+User: A callback would be fine I guess.
+Agent: Great. I have your number on file ending in 8823. We'll call you back within 45 minutes. Is there anything else I can help you with?
+User: No that's fine.
+Agent: Thank you for calling HealthCare Support. Have a great day!
+User: [disconnects]
