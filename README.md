@@ -10,7 +10,7 @@
 ```
 npm run dev
 ```
-Then open [Open Live](https://voice-agent-playground.vercel.app/)
+Then open [Live Website](https://voice-agent-playground.vercel.app/)
 
 ---
 
